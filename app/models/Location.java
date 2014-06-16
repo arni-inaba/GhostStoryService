@@ -1,6 +1,7 @@
 package models;
 
 import com.avaje.ebean.Ebean;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import models.dto.LocationDto;
 import play.data.validation.Constraints;
@@ -26,6 +27,7 @@ public class Location extends Model {
     public double latitude;
 
     @ManyToOne(optional = false)
+    @JsonIgnore
     public Story story;
 
     @Constraints.MaxLength(255)

@@ -41,26 +41,7 @@ public class Location extends Model {
         return finder.all();
     }
 
-    // will be used when updating Story with new locations
-    public ObjectNode createLocationFromDto(LocationDto locationDto) {
-        ObjectNode result = Json.newObject();
-        Ebean.beginTransaction();
 
-        Location location = new Location();
-        location.longitude = locationDto.longitude;
-        location.latitude = locationDto.latitude;
-        location.name = locationDto.name;
-        location.story = Story.findById(locationDto.storyId);
-
-        if (location.story == null) {
-            result.put("error", "No story exists with id " + locationDto.storyId);
-            return result;
-        }
-        location.save();
-        locationDto.id = location.id;
-        result.put("success", Json.toJson(locationDto));
-        return result;
-    }
 
     public double distanceTo(Location that) {
         double theta = this.longitude - that.longitude;

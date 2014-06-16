@@ -2,10 +2,13 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-GET     /api/v1/stories/            api.Stories.listOfAllStories()
+GET        /api/v1/stories/            api.Stories.listOfAllStories()
+GET        /api/v1/stories/here        api.Stories.getStoriesByLocation(longitude: Double, latitude: Double, distance: Double)
+GET        /api/v1/stories/:id         api.Stories.getStory(id: Long)
+POST       /api/v1/stories/            api.Stories.doCreate()
 
 # Home page
-GET     /                           controllers.Application.index()
+GET        /                           controllers.Application.index()
 
 # Map static resources from the /public folder to the /assets URL path
-GET     /assets/*file               controllers.Assets.at(path="/public", file)
+GET        /assets/*file               controllers.Assets.at(path="/public", file)

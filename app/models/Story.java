@@ -8,10 +8,7 @@ import play.data.validation.Constraints;
 import play.db.ebean.Model;
 import play.libs.Json;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -26,6 +23,10 @@ public class Story extends Model {
     public String excerpt;
 
     @Constraints.Required
+    public String title;
+
+    @Constraints.Required
+    @Column(columnDefinition = "TEXT")
     public String storyText;
 
     @OneToMany(orphanRemoval = true, cascade = CascadeType.ALL)
@@ -33,11 +34,11 @@ public class Story extends Model {
 
     private static Finder<Long, Story> finder = new Finder<Long, Story>(Long.class, Story.class);
 
-    static Story findById(Long id) {
+    public static Story findById(Long id) {
         return finder.byId(id);
     }
 
-    static List<Story> findByLocation(Location location, double distance) {
+    public static List<Story> findByLocation(Location location, double distance) {
 
         List<Story> stories = new ArrayList<>();
         List<Location> locationList = Location.allLocations();

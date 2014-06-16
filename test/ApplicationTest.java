@@ -6,6 +6,7 @@ import java.util.Map;
 import com.fasterxml.jackson.databind.JsonNode;
 import org.junit.*;
 
+import play.api.mvc.Request;
 import play.mvc.*;
 import play.test.*;
 import play.data.DynamicForm;
@@ -40,5 +41,13 @@ public class ApplicationTest {
         assertThat(contentAsString(html)).contains("Your new application is ready.");
     }
 
+    @Test
+    public void postStory() {
+        String body = "{ \"excerpt\": \"Short story about nothing\", \"storyText\": \"Once upon a time there was a ghost\", \"locations\": [ { \"longitude\": 66.4, \"latitude\": 24.343 } ] }";
+        FakeRequest fakeRequest = new FakeRequest();
+        fakeRequest.withTextBody(body);
+        Request<Http.RequestBody> wrappedRequest = fakeRequest.getWrappedRequest();
+
+    }
 
 }

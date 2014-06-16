@@ -48,8 +48,7 @@ public class Stories extends Controller {
 
     @BodyParser.Of(BodyParser.Json.class)
     public static Result doCreate() {
-        Http.Request request = request();
-        Form<StoryDto> filledForm = Form.form(StoryDto.class).bind(request.body().asJson());
+        Form<StoryDto> filledForm = Form.form(StoryDto.class).bind(request().body().asJson());
         ObjectNode result = Json.newObject();
 
         if (filledForm.hasErrors()) {
@@ -58,6 +57,23 @@ public class Stories extends Controller {
         }
         StoryDto storyDto = filledForm.get();
         ObjectNode story = Story.createStoryFromDto(storyDto);
+        if (story.get("error") == null) {
+            return ok(story);
+        }
+        return badRequest(story);
+    }
+
+    @BodyParser.Of(BodyParser.Json.class)
+    public static Result doUpdate(Long id) {
+        Form<StoryDto> filledForm = Form.form(StoryDto.class).bind(request().body().asJson());
+        ObjectNode result = Json.newObject();
+        if (filledForm.hasErrors()) {
+            result.put("error", filledForm.errorsAsJson());
+            return badRequest(result);
+        }
+        StoryDto storyDto = filledForm.get();
+        storyDto.id = id;
+        ObjectNode story = Story.updateFromDto(storyDto);
         if (story.get("error") == null) {
             return ok(story);
         }

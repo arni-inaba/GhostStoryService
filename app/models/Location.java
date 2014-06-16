@@ -43,7 +43,43 @@ public class Location extends Model {
         return finder.all();
     }
 
+    // will be used when updating Story with new locations
+    public static ObjectNode createLocationFromDto(LocationDto locationDto) {
+        ObjectNode result = Json.newObject();
+        Ebean.beginTransaction();
 
+        Location location = new Location();
+        location.longitude = locationDto.longitude;
+        location.latitude = locationDto.latitude;
+        location.name = locationDto.name;
+        location.story = Story.findById(locationDto.storyId);
+
+        if (location.story == null) {
+            result.put("error", "No story exists with id " + locationDto.storyId);
+            return result;
+        }
+        location.save();
+        locationDto.id = location.id;
+        result.put("success", Json.toJson(locationDto));
+        return result;
+    }
+
+    public static ObjectNode doDelete(Long id) {
+        ObjectNode result = Json.newObject();
+        Location location = findById(id);
+        Ebean.beginTransaction();
+        try {
+            location.delete();
+            Ebean.commitTransaction();
+        } catch (Exception e) {
+            result.put("error", "Could not delete location with id: " + id);
+            return result;
+        } finally {
+            Ebean.endTransaction();
+        }
+        result.put("success", "Deleted location with id: " + id);
+        return result;
+    }
 
     public double distanceTo(Location that) {
         double theta = this.longitude - that.longitude;

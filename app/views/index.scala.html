@@ -2,6 +2,21 @@
 
 @main("Welcome to Play") {
 
-    @play20.welcome(message, style = "Java")
+    <p>A REST-ish web service for location-based fables.</p>
+
+    <p>Available commands:</p>
+
+    <dl>
+        <dt>All stories</dt>
+        <dd>GET         /api/v1/stories/</dd>
+        <dt>Nearby stories</dt>
+        <dd>GET         /api/v1/stories/here?longitude=x&latitude=y&distance=z</dd>
+        <dt>Get a specific story</dt>
+        <dd>GET         /api/v1/stories/x</dd>
+        <dt>Submit a story</dt>
+        <dd>POST        /api/v1/stories/</dd>
+        <dt>Update a story</dt>
+        <dd>PUT         /api/v1/stories/x</dd>
+    </dl>
 
 }

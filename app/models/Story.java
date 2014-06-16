@@ -58,6 +58,7 @@ public class Story extends Model {
         try {
             story.excerpt = storyDto.excerpt;
             story.storyText = storyDto.storyText;
+            story.title = storyDto.title;
             List<Location> locations = new ArrayList<>();
             for (LocationDto loc : storyDto.locations) {
                 Location location = new Location();
@@ -82,5 +83,31 @@ public class Story extends Model {
         } finally {
             Ebean.endTransaction();
         }
+    }
+
+    public static ObjectNode updateFromDto(StoryDto storyDto) {
+
+        ObjectNode result = Json.newObject();
+        Story storyToUpdate = findById(storyDto.id);
+
+        storyToUpdate.title = storyDto.title;
+        storyToUpdate.excerpt = storyDto.excerpt;
+        storyToUpdate.storyText = storyDto.storyText;
+
+        // For the time being, we replace the entire location list
+        for (Location location : storyToUpdate.locations) {
+            Location.doDelete(location.id);
+        }
+
+        List<Location> locations = new ArrayList<>();
+        for (LocationDto locationDto : storyDto.locations) {
+            result = Location.createLocationFromDto(locationDto);
+            if (result.get("error") != null) {
+                return result;
+            }
+        }
+        storyToUpdate.update();
+        result.put("success",Json.toJson(storyDto));
+        return result;
     }
 }

@@ -5,6 +5,9 @@ import play.db.ebean.Model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Location extends Model {
@@ -18,10 +21,21 @@ public class Location extends Model {
     @Constraints.Required
     public double latitude;
 
+    @ManyToOne(optional = false)
+    public Story story;
+
+    @Constraints.MaxLength(255)
     public String name;
 
     private static Finder<Long, Location> finder = new Finder<Long, Location>(Long.class, Location.class);
 
+    public static Location findById(Long id) {
+        return finder.byId(id);
+    }
+
+    public static List<Location> allLocations() {
+        return finder.all();
+    }
 
     public double distanceTo(Location that) {
         double theta = this.longitude - that.longitude;

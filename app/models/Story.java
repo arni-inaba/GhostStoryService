@@ -101,6 +101,7 @@ public class Story extends Model {
 
         List<Location> locations = new ArrayList<>();
         for (LocationDto locationDto : storyDto.locations) {
+            locationDto.storyId = storyDto.id;
             result = Location.createLocationFromDto(locationDto);
             if (result.get("error") != null) {
                 return result;

@@ -46,7 +46,6 @@ public class Location extends Model {
     // will be used when updating Story with new locations
     public static ObjectNode createLocationFromDto(LocationDto locationDto) {
         ObjectNode result = Json.newObject();
-        Ebean.beginTransaction();
 
         Location location = new Location();
         location.longitude = locationDto.longitude;

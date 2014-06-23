@@ -76,9 +76,5 @@ public class StoryTest {
     @After
     public void teardown() {
         WS.url("http://localhost:9000/api/v1/stories/" + storyId).delete().get(5000);
-        WS.url("http://localhost:9000/api/v1/stories/" + 6).delete().get(5000);
-        WS.url("http://localhost:9000/api/v1/stories/" + 7).delete().get(5000);
-        WS.url("http://localhost:9000/api/v1/stories/" + 8).delete().get(5000);
-        WS.url("http://localhost:9000/api/v1/stories/" + 9).delete().get(5000);
     }
 }

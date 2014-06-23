@@ -7,6 +7,7 @@ GET         /api/v1/stories/here        api.Stories.getStoriesByLocation(longitu
 GET         /api/v1/stories/:id         api.Stories.getStory(id: Long)
 POST        /api/v1/stories/            api.Stories.doCreate()
 PUT         /api/v1/stories/:id         api.Stories.doUpdate(id: Long)
+DELETE      /api/v1/stories/:id         api.Stories.doDelete(id: Long)
 
 # Home page
 GET         /                           controllers.Application.index()

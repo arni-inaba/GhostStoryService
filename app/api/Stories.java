@@ -79,4 +79,13 @@ public class Stories extends Controller {
         }
         return badRequest(story);
     }
+
+    public static Result doDelete(Long id) {
+        ObjectNode result = Story.deleteStory(id);
+        if (result.get("error") == null) {
+            return ok(result);
+        }
+        return badRequest(result);
+    }
+
 }

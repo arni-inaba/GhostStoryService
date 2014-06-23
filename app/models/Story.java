@@ -111,4 +111,16 @@ public class Story extends Model {
         result.put("success",Json.toJson(storyDto));
         return result;
     }
+
+    public static ObjectNode deleteStory(Long id) {
+        ObjectNode result = Json.newObject();
+        Story story = findById(id);
+        if (story != null) {
+            story.delete();
+            result.put("Success", "Story " + id + " deleted.");
+        } else {
+            result.put("Error", "No story found with id " + id);
+        }
+        return result;
+    }
 }
